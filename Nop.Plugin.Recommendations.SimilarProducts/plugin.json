@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Recommendations",
+  "FriendlyName": "Similar Products",
+  "SystemName": "Recommendations.SimilarProducts",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.40" ],
+  "Author": "Olga Panco",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Recommendations.SimilarProducts.dll",
+  "Description": "This plugin discovers similar products and provides a widget for Product page."
+}

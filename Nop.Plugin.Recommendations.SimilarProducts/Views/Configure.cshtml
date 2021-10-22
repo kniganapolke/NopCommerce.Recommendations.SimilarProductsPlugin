@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "_ConfigurePlugin";
+}
+@model Nop.Plugin.Recommendations.SimilarProducts.Models.ConfigurationModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h2>@T("Plugins.Recommendations.SimilarProducts.CheckProductProperties"):</h2>
+@{
+    <form asp-controller="RecommendationsSimilarProducts" asp-action="Configure" method="post">
+        @for (var i = 0; i < Model.Features.Count; i++)
+        {
+            <div>
+                <label>@T(Model.Features[i].Feature.GetDescription())</label>
+                <input asp-for="Features[i].Enabled" />
+                <input asp-for="Features[i].Feature" type="hidden" />
+            </div>
+        }
+
+    <div>
+        <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToFind") (1-30)</label>
+        <input asp-for="NumOfSimilarProductsToDiscover" min="1" max="30" />
+        <span asp-validation-for="NumOfSimilarProductsToDiscover" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToDisplay") (1-30)</label>
+        <input asp-for="NumOfSimilarProductsToDisplay" min="1" max="30" />
+        <span asp-validation-for="NumOfSimilarProductsToDisplay" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>@T("Plugins.Recommendations.SimilarProducts.MinValueOfSimilarity") (0.1-1)</label>
+        <input asp-for="MinAcceptedValueOfSimilarity" min="0.1" max="1" step="0.05" />
+        <span asp-validation-for="MinAcceptedValueOfSimilarity" class="text-danger"></span>
+    </div>
+
+        <button type="submit">@T("common.save")</button>
+    </form>
+
+    <form asp-controller="RecommendationsSimilarProducts" asp-action="TrainModel" method="get">
+        <div>
+            <button type="Submit">@T("Plugins.Recommendations.SimilarProducts.TrainModel")</button>
+        </div>
+    </form>
+}
