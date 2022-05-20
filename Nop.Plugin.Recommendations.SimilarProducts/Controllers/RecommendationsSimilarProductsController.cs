@@ -33,7 +33,7 @@ namespace Nop.Plugin.Recommendations.Controllers
                 new ConfigurationModel() :
                 new ConfigurationModel(settings);
 
-            return await Task.FromResult((IActionResult)View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model));
+            return View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model);
         }
 
         [AutoValidateAntiforgeryToken]
@@ -51,7 +51,7 @@ namespace Nop.Plugin.Recommendations.Controllers
 
             await _configurationService.AddOrUpdateAsync(settings);
 
-            return await Task.FromResult((IActionResult)View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model));
+            return View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model);
         }
 
         [AutoValidateAntiforgeryToken]
@@ -67,7 +67,7 @@ namespace Nop.Plugin.Recommendations.Controllers
 
             await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(settings);
 
-            return await Task.FromResult((IActionResult)View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model));
+            return View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model);
         }
     }
 }
