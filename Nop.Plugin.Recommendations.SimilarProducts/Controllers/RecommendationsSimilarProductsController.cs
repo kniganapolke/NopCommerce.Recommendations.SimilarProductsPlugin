@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Recommendations.SimilarProducts.Domains;
 using Nop.Plugin.Recommendations.SimilarProducts.Models;
 using Nop.Plugin.Recommendations.SimilarProducts.Services;
+using Nop.Services.Logging;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
@@ -13,13 +15,16 @@ namespace Nop.Plugin.Recommendations.Controllers
     {
         private readonly IFeaturesConfigurationService _configurationService;
         private readonly ISimilarProductsService _similarProductsService;
+        private readonly ILogger _logger;
 
         public RecommendationsSimilarProductsController(
             IFeaturesConfigurationService configurationService,
-            ISimilarProductsService similarProductsService)
+            ISimilarProductsService similarProductsService,
+            ILogger logger)
         {
             _configurationService = configurationService;
             _similarProductsService = similarProductsService;
+            _logger = logger;
         }
 
         [AutoValidateAntiforgeryToken]
@@ -65,7 +70,15 @@ namespace Nop.Plugin.Recommendations.Controllers
                 new ConfigurationModel() :
                 new ConfigurationModel(settings);
 
-            await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(settings);
+            try
+            {
+                await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(settings);
+            }
+            catch(InvalidOperationException ex)
+            {
+                await _logger.ErrorAsync(ex.Message, ex);
+                model.DisplayConfigurationTip = true;
+            }
 
             return View("~/Plugins/Recommendations.SimilarProducts/Views/Configure.cshtml", model);
         }

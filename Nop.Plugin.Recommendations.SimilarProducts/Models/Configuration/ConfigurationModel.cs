@@ -24,6 +24,8 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Models
         [Range(0.1, 1, ErrorMessage = "Value should fall in range [0.1, 1]")]
         public double MinAcceptedValueOfSimilarity { get; set; }
 
+        public bool DisplayConfigurationTip { get; set; }
+
         public ConfigurationModel()
         {
             Features = Enum.GetValues<ProductFeaturesEnum>()

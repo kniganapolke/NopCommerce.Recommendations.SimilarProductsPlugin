@@ -148,9 +148,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             return weightedDistance;
         }
 
-        private async Task<PredictionEngine<ProductInputModel, ProductOutputModel>> TrainModel(MLContext mlContext, FeaturesConfigurationRecord settings)
+        private Task<PredictionEngine<ProductInputModel, ProductOutputModel>> TrainModel(MLContext mlContext, FeaturesConfigurationRecord settings)
         {
-            var task = await Task.Run(() => {
+            var task = Task.Run(() => {
 
                 var options = new TextFeaturizingEstimator.Options()
                 {
@@ -249,7 +249,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 
         private async Task<IDataView> LoadProducts(MLContext mlContext)
         {
-            var dataSettings = DataSettingsManager.LoadSettings();
+            var dataSettings = await DataSettingsManager.LoadSettingsAsync();
             var connectionString = dataSettings.ConnectionString;
             var sqlStatement = "";
 

@@ -4,6 +4,23 @@
 @model Nop.Plugin.Recommendations.SimilarProducts.Models.ConfigurationModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@if(Model.DisplayConfigurationTip){
+<div class="text-danger">
+
+    <p>Microsoft.ML library relies on MICROSOFTML_RESOURCE_PATH environment variable to be set to a writable directory that application has access to.</p>
+    <p>This variable can be set from web.config:</p>
+    <code>
+        @("<aspNetCore ...>")
+            @("<environmentVariables>")
+                @("<environmentVariable name=\"MICROSOFTML_RESOURCE_PATH\" value=\"[PATH_TO_WRITABLE_DIRECTORY]\" />")
+            @("</environmentVariables>")
+        @("</aspNetCore>")
+    </code>   
+    
+    <p>Please make sure to grant read/write access to the directory to the web server's process.</p>
+</div>
+}
+
 <h2>@T("Plugins.Recommendations.SimilarProducts.CheckProductProperties"):</h2>
 @{
     <form asp-controller="RecommendationsSimilarProducts" asp-action="Configure" method="post">
