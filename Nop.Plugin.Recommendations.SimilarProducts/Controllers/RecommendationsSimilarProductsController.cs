@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Data;
 using Nop.Plugin.Recommendations.SimilarProducts.Domains;
 using Nop.Plugin.Recommendations.SimilarProducts.Models;
 using Nop.Plugin.Recommendations.SimilarProducts.Services;
@@ -64,15 +65,17 @@ namespace Nop.Plugin.Recommendations.Controllers
         [Area(AreaNames.Admin)]
         public async Task<IActionResult> TrainModel()
         {
-            var settings = await _configurationService.GetAsync();
+            var pluginSettings = await _configurationService.GetAsync();
 
-            var model = settings is null ?
+            var model = pluginSettings is null ?
                 new ConfigurationModel() :
-                new ConfigurationModel(settings);
+                new ConfigurationModel(pluginSettings);
+
+            var appSettings = await DataSettingsManager.LoadSettingsAsync();
 
             try
             {
-                await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(settings);
+                await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(pluginSettings, appSettings);
             }
             catch(InvalidOperationException ex)
             {

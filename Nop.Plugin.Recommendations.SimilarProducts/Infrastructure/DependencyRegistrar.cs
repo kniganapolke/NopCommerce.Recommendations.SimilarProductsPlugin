@@ -17,7 +17,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Infrastructure
         public void Register(IServiceCollection services, ITypeFinder typeFinder, AppSettings appSettings)
         {
             services.AddScoped<IFeaturesConfigurationService, FeaturesConfigurationService>();
-            services.AddScoped<ISimilarProductsService, SimilarProductsService>();
+            services.AddScoped<ISimilarProductsService, SimilarProductsDiscoveryService>();
+            services.AddScoped<IProductsLoaderService, ProductsLoaderService>();
+            services.AddScoped<ISimilarProductsPersistanceService, SimilarProductsPersistanceService>();
         }
 
         public int Order => 1;

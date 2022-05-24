@@ -1,4 +1,5 @@
-﻿using Nop.Plugin.Recommendations.SimilarProducts.Services;
+﻿using Nop.Data;
+using Nop.Plugin.Recommendations.SimilarProducts.Services;
 using Nop.Services.Tasks;
 
 namespace Nop.Plugin.Recommendations.SimilarProducts.ScheduleTasks
@@ -22,8 +23,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.ScheduleTasks
 
         public async System.Threading.Tasks.Task ExecuteAsync()
         {
-            var settings = await _configurationService.GetAsync();
-            await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(settings);
+            var pluginSettings = await _configurationService.GetAsync();
+            var appSettings = await DataSettingsManager.LoadSettingsAsync();
+            await _similarProductsService.TrainModelAndSaveSimilarProductsAsync(pluginSettings, appSettings);
         }
     }
 }

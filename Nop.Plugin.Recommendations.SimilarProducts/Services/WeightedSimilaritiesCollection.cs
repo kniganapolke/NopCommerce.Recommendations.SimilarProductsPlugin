@@ -47,6 +47,28 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             }
         }
 
+        public void AddEqualityDistance(float[] vector1, float[] vector2, double weight, bool ignoreZeros)
+        {
+            if (!IsVectorZero(vector1) || !IsVectorZero(vector2))
+            {
+                float sum = 0f;
+                int count = 0;
+                for(var i = 0; i < vector1.Length; i++)
+                {
+                    if (ignoreZeros && vector1[i] == 0 && vector2[i] == 0)
+                        continue;
+
+                    sum += vector1[i] == vector2[i] ? 0 : 1;
+                    count++;
+                }
+
+                var distance = sum / count;
+
+                if (!double.IsNaN(distance))
+                    _collection.Add((weight, distance));
+            }
+        }
+
         public double GetWeightedDistance()
         {
             return _collection.Any() ? _collection.Sum(i => i.Item1 * (1 - i.Item2)) / _collection.Sum(i => i.Item1) : 0;
