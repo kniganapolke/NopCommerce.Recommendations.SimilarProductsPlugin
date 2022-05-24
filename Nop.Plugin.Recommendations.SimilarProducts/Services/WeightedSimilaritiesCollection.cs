@@ -12,7 +12,12 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             _collection = new List<(double, double)>();
         }
 
-        public void AddCosineSimilarity(float[] vector1, float[] vector2, double weight)
+        public void AddDistance(float distance, double weight)
+        {
+            _collection.Add((weight, distance));
+        }
+
+        public void AddCosineDistance(float[] vector1, float[] vector2, double weight)
         {
             if (!IsVectorZero(vector1) || !IsVectorZero(vector2))
             {
@@ -22,7 +27,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             }
         }
 
-        public void AddJaccardSimilarity(float[] vector1, float[] vector2, double weight)
+        public void AddJaccardDistance(float[] vector1, float[] vector2, double weight)
         {
             if (!IsVectorZero(vector1) || !IsVectorZero(vector2))
             {
@@ -32,7 +37,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             }
         }
 
-        public void AddPearsonSimilarity(float[] vector1, float[] vector2, double weight)
+        public void AddPearsonDistance(float[] vector1, float[] vector2, double weight)
         {
             if (!IsVectorZero(vector1) || !IsVectorZero(vector2))
             {
@@ -44,7 +49,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 
         public double GetWeightedDistance()
         {
-            return _collection.Sum(i => i.Item1 * (1 - i.Item2)) / _collection.Sum(i => i.Item1);
+            return _collection.Any() ? _collection.Sum(i => i.Item1 * (1 - i.Item2)) / _collection.Sum(i => i.Item1) : 0;
         }
 
         private static bool IsVectorZero(float[] vector)
