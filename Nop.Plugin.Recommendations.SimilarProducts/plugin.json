@@ -2,7 +2,7 @@
   "Group": "Recommendations",
   "FriendlyName": "Similar Products",
   "SystemName": "Recommendations.SimilarProducts",
-  "Version": "1.00",
+  "Version": "1.01",
   "SupportedVersions": [ "4.40" ],
   "Author": "Olga Panco",
   "DisplayOrder": 1,
