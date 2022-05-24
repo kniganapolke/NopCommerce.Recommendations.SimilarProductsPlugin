@@ -61,6 +61,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Models
         Length = 131072,
 
         [Description("admin.catalog.products.fields.width")]
-        Width = 262144
+        Width = 262144,
+
+        [Description("admin.catalog.products.fields.producttags")]
+        ProductTags = 524288,
     }
 }

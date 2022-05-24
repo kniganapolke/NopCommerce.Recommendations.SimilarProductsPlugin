@@ -18,6 +18,7 @@
         public string Categories { get; set; }
         public string Manufacturers { get; set; }
         public string ProductAttributes { get; set; }
+        public string ProductTags { get; set; }
         public float Weight { get; set; }
         public float Height { get; set; }
         public float Length { get; set; }

@@ -14,7 +14,7 @@ using Nop.Plugin.Recommendations.SimilarProducts.Models.ML;
 
 namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 {
-    public class SimilarProductsDiscoveryService : ISimilarProductsService
+    public class SimilarProductsDiscoveryService : ISimilarProductsDiscoveryService
     {
         #region Fields
 
@@ -134,17 +134,22 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 
             if (IsFeatureEnabled(settings, ProductFeaturesEnum.Categories))
             {
-                weightedDistances.AddEqualityDistance(p1.Categories, p2.Categories, weight: 1, ignoreZeros: true);
+                weightedDistances.AddIntersectionDistance(p1.Categories, p2.Categories, weight: 1);
             }
 
             if (IsFeatureEnabled(settings, ProductFeaturesEnum.Manufacturers))
             {
-                weightedDistances.AddEqualityDistance(p1.Manufacturers, p2.Manufacturers, weight: 1, ignoreZeros: true);
+                weightedDistances.AddIntersectionDistance(p1.Manufacturers, p2.Manufacturers, weight: 1);
             }
 
             if (IsFeatureEnabled(settings, ProductFeaturesEnum.ProductAttributes))
             {
-                weightedDistances.AddEqualityDistance(p1.ProductAttributes, p2.ProductAttributes, weight: 1, ignoreZeros: true);
+                weightedDistances.AddIntersectionDistance(p1.ProductAttributes, p2.ProductAttributes, weight: 1);
+            }
+
+            if (IsFeatureEnabled(settings, ProductFeaturesEnum.ProductTags))
+            {
+                weightedDistances.AddIntersectionDistance(p1.ProductTags, p2.ProductTags, weight: 1);
             }
 
             if (IsFeatureEnabled(settings, ProductFeaturesEnum.Price))
@@ -278,6 +283,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             output.Categories = IsFeatureEnabled(settings, ProductFeaturesEnum.Categories) ? parseStringIntoArray(input.Categories, 20) : new float[0];
             output.Manufacturers = IsFeatureEnabled(settings, ProductFeaturesEnum.Manufacturers) ? parseStringIntoArray(input.Manufacturers, 20) : new float[0];
             output.ProductAttributes = IsFeatureEnabled(settings, ProductFeaturesEnum.ProductAttributes) ? parseStringIntoArray(input.ProductAttributes, 50) : new float[0];
+            output.ProductTags = IsFeatureEnabled(settings, ProductFeaturesEnum.ProductTags) ? parseStringIntoArray(input.ProductTags, 100) : new float[0];
 
             return output;
         }

@@ -6,7 +6,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.ScheduleTasks
 {
     public class DiscoverSimilarProductsScheduleTask : IScheduleTask
     {
-        private readonly ISimilarProductsService _similarProductsService;
+        private readonly ISimilarProductsDiscoveryService _similarProductsService;
         private readonly IFeaturesConfigurationService _configurationService;
 
         public static string Name = "Discover similar products (Similar Products Plugin)";
@@ -14,7 +14,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.ScheduleTasks
         public static int Seconds = 604800;
 
         public DiscoverSimilarProductsScheduleTask(
-            ISimilarProductsService similarProductsService,
+            ISimilarProductsDiscoveryService similarProductsService,
             IFeaturesConfigurationService configurationService)
         {
             _similarProductsService = similarProductsService;

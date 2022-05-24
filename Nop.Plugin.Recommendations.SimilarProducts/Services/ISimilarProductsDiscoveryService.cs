@@ -6,7 +6,7 @@ using Nop.Plugin.Recommendations.SimilarProducts.Models;
 
 namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 {
-    public interface ISimilarProductsService
+    public interface ISimilarProductsDiscoveryService
     {
         /// <summary>
         /// Get similar products for the specified product

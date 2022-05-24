@@ -15,7 +15,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Components
     [ViewComponent(Name = "SimilarProducts")]
     public class SimilarProductsViewComponent : NopViewComponent
     {
-        private readonly ISimilarProductsService _simProdService;
+        private readonly ISimilarProductsDiscoveryService _simProdService;
         private readonly IAclService _aclService;
         private readonly IProductModelFactory _productModelFactory;
         private readonly IProductService _productService;
@@ -23,7 +23,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Components
         private readonly IFeaturesConfigurationService _configurationService;
 
         public SimilarProductsViewComponent(
-            ISimilarProductsService simProdService,
+            ISimilarProductsDiscoveryService simProdService,
             IAclService aclService,
             IProductModelFactory productModelFactory,
             IProductService productService,            

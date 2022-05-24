@@ -15,12 +15,12 @@ namespace Nop.Plugin.Recommendations.Controllers
     public class RecommendationsSimilarProductsController : BasePluginController
     {
         private readonly IFeaturesConfigurationService _configurationService;
-        private readonly ISimilarProductsService _similarProductsService;
+        private readonly ISimilarProductsDiscoveryService _similarProductsService;
         private readonly ILogger _logger;
 
         public RecommendationsSimilarProductsController(
             IFeaturesConfigurationService configurationService,
-            ISimilarProductsService similarProductsService,
+            ISimilarProductsDiscoveryService similarProductsService,
             ILogger logger)
         {
             _configurationService = configurationService;

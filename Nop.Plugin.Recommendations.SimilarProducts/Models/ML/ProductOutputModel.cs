@@ -13,6 +13,7 @@
         public float[] Manufacturers { get; set; }
         public float[] ProductAttributes { get; set; }
         public float[] PhysicalCaracteristics { get; set; }
+        public float[] ProductTags { get; set; }
         public float Price { get; set; }
     }
 }

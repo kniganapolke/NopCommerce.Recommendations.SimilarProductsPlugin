@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Nop.Plugin.Recommendations.SimilarProducts.Services
@@ -63,6 +64,17 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
                 }
 
                 var distance = sum / count;
+
+                if (!double.IsNaN(distance))
+                    _collection.Add((weight, distance));
+            }
+        }
+
+        public void AddIntersectionDistance(float[] vector1, float[] vector2, double weight)
+        {
+            if (!IsVectorZero(vector1) || !IsVectorZero(vector2))
+            {
+                var distance = 1 - (float)vector1.Where(n => n != 0).Intersect(vector2).Count() / (float)Math.Max(vector2.Count(n => n != 0), vector1.Count(n => n != 0));
 
                 if (!double.IsNaN(distance))
                     _collection.Add((weight, distance));
