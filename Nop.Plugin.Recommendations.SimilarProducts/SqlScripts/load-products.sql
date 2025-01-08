@@ -14,4 +14,4 @@ SELECT Id, CAST(ProductTypeId AS REAL) AS ProductTypeId, CAST(ParentGroupedProdu
                        FROM      dbo.ProductTag AS pa LEFT OUTER JOIN
                                          dbo.Product_ProductTag_Mapping AS ptm ON ptm.ProductTag_Id = pa.Id AND ptm.Product_Id = p.Id) AS ProductTags
 FROM     dbo.Product AS p
-WHERE  (Deleted = 0)
+WHERE  (Deleted = 0) and (p.Published = 1 or (select sett.Value from dbo.Setting as sett where sett.Name = 'catalogsettings.allowviewunpublishedproductpage') = 'True')

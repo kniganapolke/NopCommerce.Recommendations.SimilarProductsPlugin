@@ -5,10 +5,11 @@ using Nop.Plugin.Recommendations.SimilarProducts.Services;
 using Nop.Services.Cms;
 using Nop.Services.Common;
 using Nop.Services.Plugins;
-using NopTasks = Nop.Services.Tasks;
+using NopTasks = Nop.Services.ScheduleTasks;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Plugin.Recommendations.SimilarProducts.ScheduleTasks;
 using Nop.Services.Localization;
+using Nop.Plugin.Recommendations.SimilarProducts.Components;
 
 namespace Nop.Plugin.Recommendations.SimilarProducts
 {
@@ -79,13 +80,23 @@ namespace Nop.Plugin.Recommendations.SimilarProducts
             return "SimilarProducts";
         }
 
+        // <summary>
+        /// Gets a name of a view component for displaying widget
+        /// </summary>
+        /// <param name="widgetZone">Name of the widget zone</param>
+        /// <returns>View component name</returns>
+        public Type GetWidgetViewComponent(string widgetZone)
+        {
+            return typeof(SimilarProductsViewComponent);
+        }
+
         #endregion Methods
 
         #region Private Methods
 
         private async Task InsertScheduleTasks()
         {
-            var scheduleTask = new Core.Domain.Tasks.ScheduleTask()
+            var scheduleTask = new Nop.Core.Domain.ScheduleTasks.ScheduleTask()
             {
                 Name = DiscoverSimilarProductsScheduleTask.Name,
                 Type = DiscoverSimilarProductsScheduleTask.Type,
@@ -104,7 +115,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts
 
         private async Task InsertLocaleStringResources()
         {
-            await _localizationService.AddLocaleResourceAsync(new Dictionary<string, string>
+            await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
             {
                 ["Plugins.Recommendations.SimilarProducts.SimilarProducts"] = "Similar Products",
                 ["Plugins.Recommendations.SimilarProducts.CheckProductProperties"] = "Check product's properties to participate in comparison",

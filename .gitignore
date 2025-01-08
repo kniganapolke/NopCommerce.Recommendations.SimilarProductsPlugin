@@ -5,3 +5,5 @@
 /.vs
 /Nop.Plugin.Recommendations.SimilarProducts/obj
 /Nop.Plugin.Recommendations.SimilarProducts/Nop.Plugin.Recommendations.SimilarProducts.csproj.user
+/Tests/obj
+/Nop.Plugin.Recommendations.SimilarProducts/.vs/Nop.Plugin.Recommendations.SimilarProducts

@@ -11,7 +11,7 @@ The plugin is displayed under "Recommendations" group.
 Microsoft.ML library relies on MICROSOFTML_RESOURCE_PATH environment variable to be set to a writable directory that application has access to.
 This variable can be set from web.config:
 
-<aspNetCore requestTimeout="23:00:00" processPath=".\Nop.Web.exe" arguments="" forwardWindowsAuthToken="false" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" startupTimeLimit="3600" hostingModel="InProcess">
+<aspNetCore>
 	<environmentVariables>
         <environmentVariable name="MICROSOFTML_RESOURCE_PATH" value="<PATH_TO_WRITABLE_DIRECTORY>" />
       </environmentVariables>

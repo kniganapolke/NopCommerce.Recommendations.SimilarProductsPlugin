@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.ML.Data;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.ML;
-using Nop.Data;
+using Microsoft.ML.Data;
+using Nop.Data.Configuration;
 using Nop.Plugin.Recommendations.SimilarProducts.Models.ML;
-using System.Data.SqlClient;
 
 namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 {
     public class ProductsLoaderService : IProductsLoaderService
     {
-        public Task<IEnumerable<ProductInputModel>> LoadProducts(MLContext mlContext, DataSettings dataSettings)
+        public Task<IEnumerable<ProductInputModel>> LoadProducts(MLContext mlContext, DataConfig dataSettings)
         {
             return Task.Run(() =>
             {

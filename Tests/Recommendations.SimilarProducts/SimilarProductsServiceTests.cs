@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FluentAssertions;
 using Microsoft.ML;
 using Moq;
-using Nop.Data;
+using Nop.Data.Configuration;
 using Nop.Plugin.Recommendations.SimilarProducts.Domains;
 using Nop.Plugin.Recommendations.SimilarProducts.Models;
 using Nop.Plugin.Recommendations.SimilarProducts.Models.ML;
@@ -25,7 +22,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
         }
 
         [Test]
-        public async Task NameSimilarityTest()
+        public async Task NameSimilarityTestAsync()
         {
             var products = GetNameSimilarityTestProducts();
             var productsMap = products.ToDictionary(p => p.Id);
@@ -36,10 +33,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
 
             var settings = GetFeaturesConfig(productsMap.Count, new[] { ProductFeaturesEnum.Name });
 
-            await service.TrainModelAndSaveSimilarProductsAsync(settings, new DataSettings());
+            await service.TrainModelAndSaveSimilarProductsAsync(settings, new DataConfig());
 
-            Assert.IsNotNull(_persistedSimilarities, "Similarities were not generated / saved.");
-            Assert.IsNotEmpty(_persistedSimilarities, "Similarities were not generated / saved.");
+            _persistedSimilarities.Should().NotBeNullOrEmpty("Similarities were not generated / saved.");
 
             foreach(var product in products)
             {
@@ -51,7 +47,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
                     if(product.Id == sp.SimilarProductId)
                     {
                         // Check that a product is similar to itself
-                        Assert.GreaterOrEqual(sp.Similarity, 0.99, "A product is not similar to itself.");
+                        sp.Similarity.Should().BeGreaterThanOrEqualTo(0.99, "A product is not similar to itself.");
                     }
 
                     TestContext.Out.WriteLine($"{sp.Similarity} #{sp.SimilarProductId} ({productsMap[sp.SimilarProductId].Name})");
@@ -60,11 +56,11 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
 
             // Check that products 1 and 5 are the least similar
             var leastSimilarProduct = _persistedSimilarities.Where(s => s.ProductId == 1).OrderBy(s => s.Similarity).First();
-            Assert.IsTrue(leastSimilarProduct.SimilarProductId == 5, $"Products #1 ({productsMap[1].Name}) and #5 ({productsMap[5].Name}) are not least similar.");
+            leastSimilarProduct.SimilarProductId.Should().Be(5, $"Products #1 ({productsMap[1].Name}) and #5 ({productsMap[5].Name}) are not least similar.");
         }
 
         [Test]
-        public async Task TwoSimilarProductsAllFeaturesTest()
+        public async Task TwoSimilarProductsAllFeaturesTestAsync()
         {
             var products = GetTwoSimilarTestProducts();
             var productsMap = products.ToDictionary(p => p.Id);
@@ -75,10 +71,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
 
             var settings = GetFeaturesConfig(productsMap.Count, (ProductFeaturesEnum[])Enum.GetValues(typeof(ProductFeaturesEnum)));
 
-            await service.TrainModelAndSaveSimilarProductsAsync(settings, new DataSettings());
+            await service.TrainModelAndSaveSimilarProductsAsync(settings, new DataConfig());
 
-            Assert.IsNotNull(_persistedSimilarities, "Similarities were not generated / saved.");
-            Assert.IsNotEmpty(_persistedSimilarities, "Similarities were not generated / saved.");
+            _persistedSimilarities.Should().NotBeNullOrEmpty("Similarities were not generated / saved.");
 
             foreach (var product in products)
             {
@@ -90,12 +85,12 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
                     if (product.Id == sp.SimilarProductId)
                     {
                         // Check that a product is similar to itself
-                        Assert.GreaterOrEqual(sp.Similarity, 0.99, "A product is not similar to itself.");
+                        sp.Similarity.Should().BeGreaterThanOrEqualTo(0.99, "A product is not similar to itself.");
                     }
                     else
                     {
                         // Check that different products have high similarity
-                        Assert.GreaterOrEqual(sp.Similarity, 0.95, "Products are expected to have >= 0.95 similarity.");
+                        sp.Similarity.Should().BeGreaterThanOrEqualTo(0.95, "Products are expected to have >= 0.95 similarity.");
                     }
 
                     TestContext.Out.WriteLine($"{sp.Similarity} #{sp.SimilarProductId} ({productsMap[sp.SimilarProductId].Name})");
@@ -115,10 +110,9 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
 
             var settings = GetFeaturesConfig(productsMap.Count, (ProductFeaturesEnum[])Enum.GetValues(typeof(ProductFeaturesEnum)));
 
-            await service.TrainModelAndSaveSimilarProductsAsync(settings, new DataSettings());
+            await service.TrainModelAndSaveSimilarProductsAsync(settings, new DataConfig());
 
-            Assert.IsNotNull(_persistedSimilarities, "Similarities were not generated / saved.");
-            Assert.IsNotEmpty(_persistedSimilarities, "Similarities were not generated / saved.");
+            _persistedSimilarities.Should().NotBeNullOrEmpty("Similarities were not generated / saved.");
 
             foreach (var product in products)
             {
@@ -130,12 +124,12 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
                     if (product.Id == sp.SimilarProductId)
                     {
                         // Check that a product is similar to itself
-                        Assert.GreaterOrEqual(sp.Similarity, 0.99, "A product is not similar to itself.");
+                        sp.Similarity.Should().BeGreaterThanOrEqualTo(0.99, "A product is not similar to itself.");
                     }
                     else
                     {
                         // Check that different products have low similarity
-                        Assert.LessOrEqual(sp.Similarity, 0.55, "Products are expected to have <= 0.25 similarity.");
+                        sp.Similarity.Should().BeLessThanOrEqualTo(0.55, "Products are expected to have <= 0.25 similarity.");
                     }
 
                     TestContext.Out.WriteLine($"{sp.Similarity} #{sp.SimilarProductId} ({productsMap[sp.SimilarProductId].Name})");
@@ -302,7 +296,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Tests
         {
             var mock = new Mock<IProductsLoaderService>();
 
-            mock.Setup(m => m.LoadProducts(It.IsAny<MLContext>(), It.IsAny<DataSettings>()))
+            mock.Setup(m => m.LoadProducts(It.IsAny<MLContext>(), It.IsAny<DataConfig>()))
                 .Returns(Task.FromResult(products));
 
             return mock;

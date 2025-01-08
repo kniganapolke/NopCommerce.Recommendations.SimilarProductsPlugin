@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Nop.Data;
+﻿using Nop.Data;
 using Nop.Plugin.Recommendations.SimilarProducts.Domains;
 using Nop.Plugin.Recommendations.SimilarProducts.Models;
 
@@ -46,10 +43,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 
         public async Task<FeaturesConfigurationRecord> GetAsync()
         {
-            Func<Core.Caching.IStaticCacheManager, Core.Caching.CacheKey> getCacheKey = null;
-
-            var r = await _featuresConfigurationRecordRepository.GetAllAsync(
-                records => records, getCacheKey, true);
+            var r = await _featuresConfigurationRecordRepository.GetAllAsync(q => q);
 
             return r.FirstOrDefault();
         }

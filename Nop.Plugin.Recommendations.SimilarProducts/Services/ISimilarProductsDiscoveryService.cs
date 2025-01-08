@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Nop.Data;
+﻿using Nop.Data.Configuration;
 using Nop.Plugin.Recommendations.SimilarProducts.Domains;
 using Nop.Plugin.Recommendations.SimilarProducts.Models;
 
@@ -21,6 +19,6 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
         /// </summary>
         /// <param name="settings"></param>
         /// <returns></returns>
-        Task TrainModelAndSaveSimilarProductsAsync(FeaturesConfigurationRecord settings, DataSettings appSettings);
+        Task TrainModelAndSaveSimilarProductsAsync(FeaturesConfigurationRecord settings, DataConfig appSettings);
     }
 }

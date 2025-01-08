@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.ML;
-using Microsoft.ML.Data;
+﻿using Microsoft.ML;
 using Microsoft.ML.Transforms.Text;
-using Nop.Data;
+using Nop.Data.Configuration;
 using Nop.Plugin.Recommendations.SimilarProducts.Domains;
 using Nop.Plugin.Recommendations.SimilarProducts.Models;
 using Nop.Plugin.Recommendations.SimilarProducts.Models.ML;
@@ -36,7 +29,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 
         #region Public Methods
 
-        public async Task TrainModelAndSaveSimilarProductsAsync(FeaturesConfigurationRecord settings, DataSettings appSettings)
+        public async Task TrainModelAndSaveSimilarProductsAsync(FeaturesConfigurationRecord settings, DataConfig appSettings)
         {
             if(settings is null)
             {

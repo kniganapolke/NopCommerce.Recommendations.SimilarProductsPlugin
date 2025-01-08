@@ -30,7 +30,7 @@ namespace Nop.Plugin.Recommendations.Controllers
 
         [AutoValidateAntiforgeryToken]
         [AuthorizeAdmin] //confirms access to the admin panel
-        [Area(AreaNames.Admin)] //specifies the area containing a controller or action
+        [Area(AreaNames.ADMIN)] //specifies the area containing a controller or action
         public async Task<IActionResult> Configure()
         {
             var settings = await _configurationService.GetAsync();
@@ -44,7 +44,7 @@ namespace Nop.Plugin.Recommendations.Controllers
 
         [AutoValidateAntiforgeryToken]
         [AuthorizeAdmin]
-        [Area(AreaNames.Admin)]
+        [Area(AreaNames.ADMIN)]
         [HttpPost]
         public async Task<IActionResult> Configure(ConfigurationModel model)
         {
@@ -62,7 +62,7 @@ namespace Nop.Plugin.Recommendations.Controllers
 
         [AutoValidateAntiforgeryToken]
         [AuthorizeAdmin]
-        [Area(AreaNames.Admin)]
+        [Area(AreaNames.ADMIN)]
         public async Task<IActionResult> TrainModel()
         {
             var pluginSettings = await _configurationService.GetAsync();
@@ -71,7 +71,7 @@ namespace Nop.Plugin.Recommendations.Controllers
                 new ConfigurationModel() :
                 new ConfigurationModel(pluginSettings);
 
-            var appSettings = await DataSettingsManager.LoadSettingsAsync();
+            var appSettings = DataSettingsManager.LoadSettings();
 
             try
             {
