@@ -11,12 +11,12 @@
     <p>This variable can be set from web.config:</p>
     <code>
         @("<aspNetCore ...>")
-            @("<environmentVariables>")
-                @("<environmentVariable name=\"MICROSOFTML_RESOURCE_PATH\" value=\"[PATH_TO_WRITABLE_DIRECTORY]\" />")
-            @("</environmentVariables>")
+        @("<environmentVariables>")
+        @("<environmentVariable name=\"MICROSOFTML_RESOURCE_PATH\" value=\"[PATH_TO_WRITABLE_DIRECTORY]\" />")
+        @("</environmentVariables>")
         @("</aspNetCore>")
-    </code>   
-    
+    </code>
+
     <p>Please make sure to grant read/write access to the directory to the web server's process.</p>
 </div>
 }
@@ -24,39 +24,78 @@
 <h2>@T("Plugins.Recommendations.SimilarProducts.CheckProductProperties"):</h2>
 @{
     <form asp-controller="RecommendationsSimilarProducts" asp-action="Configure" method="post">
-        @for (var i = 0; i < Model.Features.Count; i++)
-        {
-            <div>
-                <label>@T(Model.Features[i].Feature.GetDescription())</label>
-                <input asp-for="Features[i].Enabled" />
-                <input asp-for="Features[i].Feature" type="hidden" />
-            </div>
-        }
+        <table class="table table-bordered table-hover table-striped dataTable" id="recsimprod-config-properties-table" width="100%" style="width: 100%;">
+            <thead>
+                <tr style="height: 0px;">
+                    <th style="width: 30%">&nbsp;</th>
+                    <th><input type="checkbox" id="recsimprod-toggle-all" checked="@(Model.Features.All(f => f.Enabled))" /></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Features.Count; i++)
+                {
+                <tr class="@( i % 2 == 0 ? "even" : "odd" )">
+                    <td>
+                        <label>@T(Model.Features[i].Feature.GetDescription())</label>
+                    </td>
+                    <td>
+                        <input asp-for="Features[i].Enabled" />
+                        <input asp-for="Features[i].Feature" type="hidden" />
+                    </td>
+                </tr>
+                }
 
-    <div>
-        <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToFind") (1-30)</label>
-        <input asp-for="NumOfSimilarProductsToDiscover" min="1" max="30" />
-        <span asp-validation-for="NumOfSimilarProductsToDiscover" class="text-danger"></span>
-    </div>
+                <tr class="@( Model.Features.Count % 2 == 0 ? "even" : "odd" )">
+                    <td>
+                        <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToFind") (1-30)</label>
+                    </td>
+                    <td>
+                        <input asp-for="NumOfSimilarProductsToDiscover" min="1" max="30" />
+                        <span asp-validation-for="NumOfSimilarProductsToDiscover" class="text-danger"></span>
+                    </td>
+                </tr>
 
-    <div>
-        <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToDisplay") (1-30)</label>
-        <input asp-for="NumOfSimilarProductsToDisplay" min="1" max="30" />
-        <span asp-validation-for="NumOfSimilarProductsToDisplay" class="text-danger"></span>
-    </div>
+                <tr class="@( Model.Features.Count % 2 == 0 ? "odd" : "even" )">
+                    <td>
+                        <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToDisplay") (1-30)</label>
+                    </td>
+                    <td>
+                        <input asp-for="NumOfSimilarProductsToDisplay" min="1" max="30" />
+                        <span asp-validation-for="NumOfSimilarProductsToDisplay" class="text-danger"></span>
+                    </td>
+                </tr>
 
-    <div>
-        <label>@T("Plugins.Recommendations.SimilarProducts.MinValueOfSimilarity") (0.1-1)</label>
-        <input asp-for="MinAcceptedValueOfSimilarity" min="0.1" max="1" step="0.05" />
-        <span asp-validation-for="MinAcceptedValueOfSimilarity" class="text-danger"></span>
-    </div>
+                <tr class="@( Model.Features.Count % 2 == 0 ? "even" : "odd" )">
+                    <td>
+                        <label>@T("Plugins.Recommendations.SimilarProducts.MinValueOfSimilarity") (0.1-1)</label>
+                    </td>
+                    <td>
+                        <input asp-for="MinAcceptedValueOfSimilarity" min="0.1" max="1" />
+                        <span asp-validation-for="MinAcceptedValueOfSimilarity" class="text-danger"></span>
+                    </td>
+                </tr>
 
-        <button type="submit">@T("common.save")</button>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <button type="submit">@T("common.save")</button>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
     </form>
 
     <form asp-controller="RecommendationsSimilarProducts" asp-action="TrainModel" method="get">
-        <div>
-            <button type="Submit">@T("Plugins.Recommendations.SimilarProducts.TrainModel")</button>
-        </div>
+        <p>
+            <button class="btn btn-success" type="Submit">@T("Plugins.Recommendations.SimilarProducts.TrainModel")</button>
+        </p>
     </form>
+
+    <script asp-location="Footer">
+        $(':checkbox#recsimprod-toggle-all').click (function () {
+          $('table#recsimprod-config-properties-table :checkbox').prop('checked', this.checked);
+        });
+    </script>
 }
