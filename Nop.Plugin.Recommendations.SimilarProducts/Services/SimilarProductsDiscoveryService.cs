@@ -181,7 +181,7 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
             if (!IsFeatureEnabled(settings, ProductFeaturesEnum.Name) && !IsFeatureEnabled(settings, ProductFeaturesEnum.ShortDescription)
                 && !IsFeatureEnabled(settings, ProductFeaturesEnum.FullDescription) && !IsFeatureEnabled(settings, ProductFeaturesEnum.MetaKeywords)
                 && !IsFeatureEnabled(settings, ProductFeaturesEnum.MetaTitle))
-                return null;
+                return Task.FromResult<PredictionEngine<ProductInputModel, ProductTextOutputModel>>(null);
 
             return Task.Run(() => {
 
