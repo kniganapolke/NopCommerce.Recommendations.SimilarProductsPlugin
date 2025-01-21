@@ -50,7 +50,7 @@
                         <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToFind") (1-30)</label>
                     </td>
                     <td>
-                        <input asp-for="NumOfSimilarProductsToDiscover" min="1" max="30" />
+                        <nop-editor asp-for="NumOfSimilarProductsToDiscover" min="1" max="30" />
                         <span asp-validation-for="NumOfSimilarProductsToDiscover" class="text-danger"></span>
                     </td>
                 </tr>
@@ -60,7 +60,7 @@
                         <label>@T("Plugins.Recommendations.SimilarProducts.NumberOfSimilarProductsToDisplay") (1-30)</label>
                     </td>
                     <td>
-                        <input asp-for="NumOfSimilarProductsToDisplay" min="1" max="30" />
+                        <nop-editor asp-for="NumOfSimilarProductsToDisplay" min="1" max="30" />
                         <span asp-validation-for="NumOfSimilarProductsToDisplay" class="text-danger"></span>
                     </td>
                 </tr>
@@ -70,7 +70,7 @@
                         <label>@T("Plugins.Recommendations.SimilarProducts.MinValueOfSimilarity") (0.1-1)</label>
                     </td>
                     <td>
-                        <input asp-for="MinAcceptedValueOfSimilarity" min="0.1" max="1" />
+                        <nop-editor asp-for="MinAcceptedValueOfSimilarity" min="0.1" max="1" />
                         <span asp-validation-for="MinAcceptedValueOfSimilarity" class="text-danger"></span>
                     </td>
                 </tr>
