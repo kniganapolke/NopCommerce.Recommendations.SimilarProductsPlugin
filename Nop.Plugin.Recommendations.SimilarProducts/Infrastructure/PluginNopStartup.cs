@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Recommendations.SimilarProducts.Services;
 
-namespace Nop.Plugin.Payments.AmazonPay.Infrastructure;
+namespace Nop.Plugin.Recommendations.SimilarProducts.Infrastructure;
 
 /// <summary>
 /// Represents object for the configuring services on application startup
@@ -36,5 +36,6 @@ public class PluginNopStartup : INopStartup
     /// Gets order of this startup configuration implementation
     /// </summary>
     public int Order => 1;
+
 
 }
