@@ -3,7 +3,7 @@
   "FriendlyName": "Similar Products",
   "SystemName": "Recommendations.SimilarProducts",
   "Version": "1.02",
-  "SupportedVersions": [ "4.80" ],
+  "SupportedVersions": [ "4.90" ],
   "Author": "Olga Panco",
   "DisplayOrder": 1,
   "FileName": "Nop.Plugin.Recommendations.SimilarProducts.dll",

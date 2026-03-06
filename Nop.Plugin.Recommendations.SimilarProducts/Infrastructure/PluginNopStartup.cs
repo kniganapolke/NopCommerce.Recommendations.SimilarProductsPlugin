@@ -37,5 +37,4 @@ public class PluginNopStartup : INopStartup
     /// </summary>
     public int Order => 1;
 
-
 }

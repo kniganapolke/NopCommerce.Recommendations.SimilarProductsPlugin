@@ -185,11 +185,11 @@ namespace Nop.Plugin.Recommendations.SimilarProducts.Services
 
             return Task.Run(() => {
 
-                var pipeline = mlContext.Transforms.Text.NormalizeText("Name", keepPunctuations: false, keepNumbers: false)
-                .Append(mlContext.Transforms.Text.NormalizeText("ShortDescription", keepPunctuations: false, keepNumbers: false))
-                .Append(mlContext.Transforms.Text.NormalizeText("FullDescription", keepPunctuations: false, keepNumbers: false))
-                .Append(mlContext.Transforms.Text.NormalizeText("MetaKeywords", keepPunctuations: false, keepNumbers: false))
-                .Append(mlContext.Transforms.Text.NormalizeText("MetaTitle", keepPunctuations: false, keepNumbers: false))
+                var pipeline = mlContext.Transforms.Text.NormalizeText("Name", keepPunctuations: false, keepNumbers: false, keepDiacritics: true)
+                .Append(mlContext.Transforms.Text.NormalizeText("ShortDescription", keepPunctuations: false, keepNumbers: false, keepDiacritics: true))
+                .Append(mlContext.Transforms.Text.NormalizeText("FullDescription", keepPunctuations: false, keepNumbers: false, keepDiacritics: true))
+                .Append(mlContext.Transforms.Text.NormalizeText("MetaKeywords", keepPunctuations: false, keepNumbers: false, keepDiacritics: true))
+                .Append(mlContext.Transforms.Text.NormalizeText("MetaTitle", keepPunctuations: false, keepNumbers: false, keepDiacritics: true))
                 .Append(mlContext.Transforms.Text.TokenizeIntoWords("TokensName", "Name"))
                 .Append(mlContext.Transforms.Text.TokenizeIntoWords("TokensShortDescription", "ShortDescription"))
                 .Append(mlContext.Transforms.Text.TokenizeIntoWords("TokensFullDescription", "FullDescription"))
